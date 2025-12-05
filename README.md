@@ -2,9 +2,9 @@
 
 ## 🎥 Demo
 
-![8-puzzle RL 3D solution animation](media/solution_3d.gif)
+![8-puzzle RL 3D solution animation](rl_8puzzle/media/solution_3d.gif)
 
-▶️ [Click here to open / download the high-quality MP4](media/solution_3d.mp4)
+▶️ [Click here to open / download the high-quality MP4](rl_8puzzle/media/solution_3d.mp4)
 
 
 
