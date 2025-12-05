@@ -75,6 +75,15 @@ def save_q(Q: QTable, path: str | Path) -> None:
         pickle.dump(dict(Q), f)
 
 
+def load_q(path: str | Path = "rl_8puzzle/q_table.pkl") -> QTable:
+    import pickle
+
+    path = Path(path)
+    with path.open("rb") as f:
+        data = pickle.load(f)
+    return data
+
+
 def main() -> None:
     print("[train] Starting Q-learning for 8-puzzle…")
     Q = train()
