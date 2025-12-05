@@ -2,13 +2,11 @@
 
 ## 🎥 Demo
 
-<p align="center">
-  <img src="media/solution_3d.gif" alt="8-puzzle RL 3D solution animation" width="480" />
-</p>
+![8-puzzle RL 3D solution animation](media/solution_3d.gif)
 
-<p align="center">
-  ▶️ <a href="media/solution_3d.mp4">Click here to open / download the high-quality MP4</a>
-</p>
+▶️ [Click here to open / download the high-quality MP4](media/solution_3d.mp4)
+
+
 
 
 A fully working **Reinforcement Learning project** that trains an agent to solve the classic **8-Puzzle** (3×3 sliding tile) using **tabular Q-Learning**, and then visualizes the solution in a smooth **3D animation**.
