@@ -1,5 +1,7 @@
 # 🧩 RL 8-Puzzle — Q-Learning Agent + 3D Animated Solver
 
+## 🎥 Demo (click to play)
+
 <p align="center">
   <video src="rl_8puzzle/media/example_solution_3d.mp4"
          controls loop muted playsinline width="480">
@@ -7,126 +9,241 @@
   </video>
 </p>
 
-A fully-functional **Reinforcement Learning project** that teaches an agent to solve the classic **8-Puzzle** sliding tile board using **Tabular Q-Learning** — and then visualizes the solution using a smooth **3D animated MP4 video**.
+<p align="center">
+  ➜ If the video player doesn’t show up in your viewer, you can
+  <a href="rl_8puzzle/media/example_solution_3d.mp4">click here to open / download the MP4</a>.
+</p>
 
-Every time you run the package, it can generate:
+A fully working **Reinforcement Learning project** that trains an agent to solve the classic **8-Puzzle** (3×3 sliding tile) using **tabular Q-Learning**, and then visualizes the solution in a smooth **3D animation**.
 
-- A **brand-new solvable puzzle**,  
-- A complete **solution trajectory** using the trained RL policy,  
-- A high-quality **3D sliding animation**, saved as a video file.
+Each run can:
+
+- Generate a **new solvable puzzle**
+- Compute a **solution trajectory** using the learned policy
+- Produce a **3D MP4 animation** of the blocks sliding into place
 
 ---
 
-# 🔖 Badges
+## 🔖 Badges
 
 <p align="center">
-  <img src="https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square" />
-  <img src="https://img.shields.io/badge/rl-Q--learning-orange?style=flat-square" />
-  <img src="https://img.shields.io/badge/tests-passing-brightgreen?style=flat-square" />
-  <img src="https://img.shields.io/badge/license-MIT-purple?style=flat-square" />
+  <img src="https://img.shields.io/badge/python-3.10%2B-blue" />
+  <img src="https://img.shields.io/badge/reinforcement%20learning-Q--learning-orange" />
+  <img src="https://img.shields.io/badge/tests-passing-brightgreen" />
+  <img src="https://img.shields.io/badge/license-MIT-purple" />
 </p>
 
 ---
 
-# 🌟 Features
+## 🌟 Features
 
-### ✔ Reinforcement Learning agent (Tabular Q-Learning)  
-### ✔ Automatically generates NEW puzzles each run  
-### ✔ Full 3D animation of the solution  
-### ✔ Command-line interface (CLI)  
-### ✔ Clean modular code design  
-### ✔ Automated tests (pytest)  
-### ✔ Example MP4 embedded in README  
-### ✔ Optional GIF generation  
+- ✔ Q-Learning agent on the 8-puzzle MDP  
+- ✔ Automatically generates **new puzzles on each run**  
+- ✔ Full **3D sliding-block animation** (MP4, optional GIF)  
+- ✔ Command-line interface (CLI) with configurable difficulty  
+- ✔ Tests with `pytest`  
+- ✔ Example solution video embedded above  
 
 ---
 
-# 📦 Project Structure
+## 📦 Project Structure
 
-rl_8puzzle/
-├─ main.py # Entry point (supports CLI arguments)
-├─ env.py # 3×3 8-Puzzle environment
-├─ n_puzzle_env.py # Optional N×N generalization
-├─ train_q_learning.py # Q-learning implementation
-├─ animate_3d.py # 3D animation engine (MP4 + GIF support)
-├─ runner.py # "one command" generator for new puzzles + videos
-├─ q_table.pkl # (generated) learned Q-table
-├─ used_start_states.json # (generated) to avoid puzzle repetition
-├─ media/
-│ └─ example_solution_3d.mp4
-└─ tests/
-├─ test_env_8puzzle.py
-└─ test_q_learning_8puzzle.py
-
+    rl_8puzzle/
+    │
+    ├─ __main__.py               # Entry point (supports CLI flags)
+    ├─ env.py                    # 3×3 8-Puzzle environment
+    ├─ n_puzzle_env.py           # Optional N×N environment
+    ├─ train_q_learning.py       # Tabular Q-learning logic
+    ├─ animate_3d.py             # 3D animation engine (MP4 + GIF)
+    ├─ runner.py                 # "new puzzle + animation" pipeline
+    │
+    ├─ q_table.pkl               # (generated) learned Q-values
+    ├─ used_start_states.json    # (generated) avoids duplicate puzzles
+    │
+    ├─ media/
+    │   └─ example_solution_3d.mp4
+    │
+    └─ tests/
+        ├─ test_env_8puzzle.py
+        └─ test_q_learning_8puzzle.py
 
 ---
 
-# 🧠 RL Formulation
+## 🧠 Reinforcement Learning Formulation
 
-### **State**
-A 9-tuple representing board configuration:
+### State representation
 
-(1, 2, 3,
-4, 5, 6,
-7, 8, 0)
+A state is a 9-tuple:
 
+    (1, 2, 3,
+     4, 5, 6,
+     7, 8, 0)
 
-### **Action Space**
-| Action | Effect |
-|-------|--------|
-| 0 | Move blank UP |
-| 1 | Move blank DOWN |
-| 2 | Move blank LEFT |
-| 3 | Move blank RIGHT |
+where `0` is the blank tile.
 
-Invalid actions → state does **not** change.
+The goal state is:
 
-### **Reward**
-- Step: **–1**  
-- Solved: **+20**
+    (1, 2, 3,
+     4, 5, 6,
+     7, 8, 0)
 
-### **Episodes**
-- Start from a scrambled configuration using valid moves from goal.
-- Terminate on goal or step limit.
+---
 
-### **Q-Learning**
+### Action space
 
-Q(s,a) ← Q(s,a) + α [ r + γ max_a' Q(s',a') – Q(s,a) ]
+The agent acts on the blank tile:
 
+| Action | Meaning        |
+|--------|----------------|
+| 0      | Move blank up  |
+| 1      | Move blank down|
+| 2      | Move blank left|
+| 3      | Move blank right|
+
+If an action is illegal (e.g. moving up when the blank is already in the top
+row), the environment simply leaves the state unchanged.
+
+---
+
+### Reward function
+
+- Every step: `−1`  
+- Reaching the goal state: `+20`  
+
+This encourages **shortest-path** solutions and penalizes wandering.
+
+---
+
+### Episodes
+
+- Start from a scrambled state generated by applying a fixed number of random
+  legal moves from the goal.
+- End when:
+  - the goal is reached, or
+  - a maximum step limit is exceeded.
+
+---
+
+### Q-Learning
+
+We use tabular Q-learning with the standard update:
+
+    Q(s, a) ← Q(s, a) + α [ r + γ max_a' Q(s', a') − Q(s, a) ]
 
 Policy:
-- ε-greedy during training  
-- Greedy during inference  
+
+- During training: ε-greedy exploration  
+- During evaluation / animation: purely greedy (`argmax_a Q(s, a)`)
+
+The learned Q-table is stored in:
+
+    rl_8puzzle/q_table.pkl
 
 ---
 
-# 🚀 Quick Start
+## 🚀 Quick Start
 
-## Run the entire pipeline (new puzzle + animation)
+From the repository root, run:
 
-```bash
-python -m rl_8puzzle
+    python -m rl_8puzzle
 
-### Generates:
+This will:
 
-rl_8puzzle/solution_3d.mp4
+1. Load an existing Q-table from `rl_8puzzle/q_table.pkl`, or train one if it
+   does not exist.
+2. Generate a scrambled but solvable puzzle.
+3. Solve it using the greedy policy derived from the Q-table.
+4. Render a 3D animation of the solution.
 
-### If you run it again, it will try to produce another unique puzzle.
-You can customize the puzzle difficulty, animation quality, and output:
+### Output
 
-python -m rl_8puzzle \
-    --scramble 60 \
-    --min-moves 15 \
-    --fps 10 \
-    --substeps 12 \
-    --output rl_8puzzle/media/my_video.mp4
+The video is written to:
 
-Available Flags
+    rl_8puzzle/solution_3d.mp4
 
-| Flag            | Meaning                                           |
-| --------------- | ------------------------------------------------- |
-| `--scramble N`  | Number of random moves when generating puzzle     |
-| `--min-moves N` | Reject puzzles with solution shorter than N moves |
-| `--fps N`       | Video frame rate                                  |
-| `--substeps N`  | Interpolation frames between tile moves           |
-| `--output PATH` | Save MP4 to custom location                       |
+Running the command again will attempt to generate a **different puzzle** (see
+“New puzzle every run” below).
+
+---
+
+## 🎛 Command-Line Arguments (CLI)
+
+You can customize the puzzle difficulty, animation smoothness, and output
+location.
+
+Example:
+
+    python -m rl_8puzzle \
+        --scramble 60 \
+        --min-moves 15 \
+        --fps 10 \
+        --substeps 12 \
+        --output rl_8puzzle/media/my_video.mp4
+
+Available flags:
+
+| Flag             | Description                                         |
+|------------------|-----------------------------------------------------|
+| `--scramble N`   | Number of random moves used to scramble the puzzle |
+| `--min-moves N`  | Reject puzzles with solution shorter than N moves   |
+| `--fps N`        | Frames per second in the output video               |
+| `--substeps N`   | Interpolated frames between discrete moves          |
+| `--output PATH`  | Path of the output MP4 file                         |
+| `--gif`          | Also render a GIF alongside the MP4                 |
+
+---
+
+## 🎥 GIF Generation
+
+If GIF generation is enabled, or you call the animation module with `--gif`,
+a GIF version of the animation is written to:
+
+    rl_8puzzle/solution_3d.gif
+
+This is convenient for previews or embedding in other documents.
+
+---
+
+## 🧪 Tests
+
+To run the tests:
+
+    pytest
+
+The tests cover:
+
+- Environment behavior (valid/invalid moves, reaching the goal, etc.)
+- Basic properties of Q-learning and its ability to improve the policy
+
+---
+
+## 🔄 How “new puzzle every run” works
+
+The `runner.py` module implements the “fresh puzzle” logic:
+
+1. Scrambles the goal using a configurable number of legal moves
+   (`scramble_moves`).
+2. Uses the current Q-table to solve the scrambled state via the greedy policy.
+3. Rejects the puzzle if:
+   - The start state is already listed in `used_start_states.json`, or
+   - The solution length is less than `min_moves` (too trivial).
+4. Once a suitable puzzle is found:
+   - The start state is appended to `used_start_states.json`.
+   - A smooth animation is generated and saved as MP4 (and optionally GIF).
+
+To reset the history and allow repeats, simply delete:
+
+    rl_8puzzle/used_start_states.json
+
+---
+
+## 📄 License
+
+This project is released under the **MIT License**. You are free to use, modify,
+and distribute it.
+
+---
+
+## ⭐ If you like this project…
+
+Please consider starring the repository — it really helps! ⭐
