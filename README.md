@@ -1,7 +1,5 @@
 # 🧩 RL 8-Puzzle — Q-Learning Agent + 3D Animated Solver
 
-# 🧩 RL 8-Puzzle — Q-Learning Agent + 3D Animated Solver
-
 ## 🎥 Demo
 
 <p align="center">
