@@ -1,18 +1,17 @@
 # 🧩 RL 8-Puzzle — Q-Learning Agent + 3D Animated Solver
 
-## 🎥 Demo (click to play)
+# 🧩 RL 8-Puzzle — Q-Learning Agent + 3D Animated Solver
+
+## 🎥 Demo
 
 <p align="center">
-  <video src="rl_8puzzle/media/solution_3d.mp4"
-         controls loop muted playsinline width="480">
-    Your browser does not support the video tag.
-  </video>
+  <img src="media/solution_3d.gif" alt="8-puzzle RL 3D solution animation" width="480" />
 </p>
 
 <p align="center">
-  ➜ If the video player doesn’t show up in your viewer, you can
-  <a href="rl_8puzzle/media/solution_3d.mp4">click here to open / download the MP4</a>.
+  ▶️ <a href="media/solution_3d.mp4">Click here to open / download the high-quality MP4</a>
 </p>
+
 
 A fully working **Reinforcement Learning project** that trains an agent to solve the classic **8-Puzzle** (3×3 sliding tile) using **tabular Q-Learning**, and then visualizes the solution in a smooth **3D animation**.
 
