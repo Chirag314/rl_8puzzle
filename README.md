@@ -3,7 +3,7 @@
 ## 🎥 Demo (click to play)
 
 <p align="center">
-  <video src="media/solution_3d.mp4"
+  <video src="rl_8puzzle/media/solution_3d.mp4"
          controls loop muted playsinline width="480">
     Your browser does not support the video tag.
   </video>
@@ -11,7 +11,7 @@
 
 <p align="center">
   ➜ If the video player doesn’t show up in your viewer, you can
-  <a href="media/solution_3d.mp4">click here to open / download the MP4</a>.
+  <a href="rl_8puzzle/media/solution_3d.mp4">click here to open / download the MP4</a>.
 </p>
 
 A fully working **Reinforcement Learning project** that trains an agent to solve the classic **8-Puzzle** (3×3 sliding tile) using **tabular Q-Learning**, and then visualizes the solution in a smooth **3D animation**.
